@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+    }
+
+    center {
+      font-size: 13px;
+    }
+
+    #frame {
+      width: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="frame">
+    <canvas id="myChart" width="450" height="300"></canvas>
+    <center id="info"></center>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  </script>
+  <script>
+    function renderData(response) {
+      console.log(response);
+      const gdpDATA = response.data.data;
+      const gdpData = new Array(),
+        gdpLabel = new Array();
+      gdpDATA.map(function(ar) {
+        gdpLabel.push(ar[0]);
+        gdpData.push(ar[1]);
+      })
+      document.getElementById("info").innerHTML = response.data.description;
+
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+          labels: gdpLabel,
+          datasets: [{
+            label: "US Gross Domestic Product",
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            data: gdpData,
+            pointHoverBackgroundColor: "rgba(220,220,220,1)",
+            pointHoverRadius: 4,
+          }]
+        },
+
+        // Configuration options go here
+        options: {
+          scales: {
+            xAxes: [{
+              ticks: {
+                beginAtZero: true,
+                startWith: "1950-01-01",
+                maxTicksLimit: 14,
+              }
+            }],
+          }
+        }
+      });
+    }
+
+    axios.get('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json')
+      .then(function(response) {
+        //"1947-01-01", 243.1
+        renderData(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  </script>
+</body>
+
+</html>
