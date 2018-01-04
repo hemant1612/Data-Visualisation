@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .card {
+      background-color: white;
+      margin: 40px auto;
+      padding: 0px;
+      width: 1200px;
+      height: 620px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+      opacity: 0.9;
+    }
+
+    .notes {
+      text-align: center;
+      font-family: monospace;
+      font-weight: 400;
+    }
+
+    .axis text {
+      font: 15px sans-serif;
+    }
+
+    h1 {
+      font-family: monospace;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      color: white;
+      width: auto;
+      height: auto;
+      padding: 3px 5px 3px 5px;
+      font: 1em sans-serif;
+      border: 0px;
+      border-radius: 5px;
+      pointer-events: none;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+      background-color: rgba(8, 1, 4, 1);
+      font-family: monospace;
+      font-weight: 400;
+    }
+
+
+
+    .colorgrid {
+      width: 110px;
+      height: 20px;
+
+    }
+
+    .info-year {
+      font-size: 15px;
+    }
+
+    .info-temp {
+      font-size: 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-family: sans-serif;
+      padding: 5px;
+      line-height: 0px;
+    }
+
+    .title>p {
+      font-size: 10px;
+      line-height: 0px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <center>
+    <h1>Scatterplot Graph Visualisation</h1>
+  </center>
+  <div class="card">
+    <div class="title">
+      <h3>Monthly Global Land-Surface Temperature</h3>
+      <h2>1753 - 2015</h2>
+      <p>Temperatures are in Celsius and reported as anomalies relative to the Jan 1951-Dec 1980 average. Estimated Jan 1951-Dec 1980 absolute temperature ℃: 8.66 +/- 0.07</p>
+
+    </div>
+    <svg class="svg"></svg>
+    <div class="notes"></div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="data.js"></script>
+</body>
+
+</html>
