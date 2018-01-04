@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+    }
+
+    .chart {
+      margin: 0px auto;
+      padding: 0px;
+      background-color: white;
+
+    }
+
+    h1 {
+      font-weight: bold;
+      font-size: 2.5em;
+      font-family: monospace;
+    }
+
+
+    .notes {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .title {
+      font-weight: bold;
+      font-family: sans-serif;
+      color: black;
+      text-align: center;
+      padding: 15px 0px 5px 0px;
+
+    }
+
+
+    p {
+      margin: 0;
+    }
+
+
+
+    .axis text {
+      font: 15px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+
+    .card {
+      background-color: white;
+      margin: 40px auto;
+      padding: 0px;
+      width: 700px;
+      height: 550px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+      opacity: 0.75;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: left;
+      color: white;
+      width: auto;
+      height: auto;
+      padding: 3px 5px 3px 5px;
+      font: 1em sans-serif;
+      border: 0px;
+      border-radius: 5px;
+      pointer-events: none;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+      background-color: rgba(4, 2, 3, 1);
+      font-family: monospace;
+      font-weight: 400;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1>Scatterplot Graph Visualisation</h1>
+  </center>
+  <div class="card">
+    <div class="title">
+      <h3>Doping in Professional Bicycle Racing</h3>
+      <p>35 Fastest times up Alpe d'Huez</p>
+    </div>
+    <svg class="chart"></svg>
+    <div class="notes"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script src="sc.js"></script>
+
+</body>
+
+</html>
