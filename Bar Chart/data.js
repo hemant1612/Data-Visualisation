@@ -29,7 +29,7 @@ $('document').ready(function() {
     var barWidth = Math.ceil(width / data.length);
 
     minDate = new Date(data[0][0]);
-    console.log(minDate);
+    //console.log(minDate);
     maxDate = new Date(data[274][0]);
     //console.log(data[0][0]);
     var x = d3.time.scale()

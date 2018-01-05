@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .graticule {
+      fill: none;
+      stroke: #777;
+      stroke-width: 0.5px;
+      stroke-opacity: 0.5;
+    }
+
+    .land {
+      fill: #222;
+    }
+
+    .boundary {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 0.5px;
+    }
+
+
+    .tooltip {
+      position: absolute;
+      color: white;
+      width: auto;
+      height: auto;
+      padding: 3px 5px 3px 5px;
+      font: 1em sans-serif;
+      border: 0px;
+      border-radius: 5px;
+      pointer-events: none;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+      background-color: rgba(8, 1, 4, 1);
+      font-family: monospace;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-family: monospace;
+    }
+  </style>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/topojson.v1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-geo-projection/2.3.2/d3-geo-projection.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="index.js"></script>
+
+</head>
+
+<body>
+  <h2>meteorite landings</h2>
+  <div class="card">
+    <svg width="1100" height="611"></svg>
+  </div>
+
+  <script>
+    axios.get('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json')
+      .then(function(response) {
+        console.log(response.data.features);
+        visualiseData(response.data.features);
+
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+
+
+    visualiseData = (data) => {
+      randomNo = (num) => Math.floor(Math.random() * num)
+
+      htmlGen = (data) => {
+        text = "";
+        if (data.properties.fall) text += "<span>Fall Type: " + data.properties.fall + "</span><br/>"
+        if (data.properties.mass) text += "<span>Mass: " + data.properties.mass + "</span><br/>"
+        if (data.properties.name) text += "<span>Name: " + data.properties.name + "</span><br/>"
+        if (data.properties.reclass) text += "<span>Recclass: " + data.properties.reclass + "</span><br/>"
+        if (data.properties.year) text += "<span>Year: " + data.properties.year + "</span><br/>"
+        return text;
+      }
+
+      var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
+
+      var projection = d3.geoCylindricalStereographic()
+        .scale(163)
+        .translate([width / 2, height / 2])
+        .precision(1);
+
+      var path = d3.geoPath()
+        .projection(projection);
+
+      var graticule = d3.geoGraticule();
+
+      var tooltip = d3.select(".card").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+
+      svg.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", path);
+
+      svg.append("path")
+        .datum({
+          type: "Sphere"
+        })
+        .attr("class", "sphere")
+        .attr("d", path)
+        .attr("fill", "none")
+        .attr("stroke", "black");
+
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+        .attr("d", path)
+        .attr('fill', '#95E1D3')
+        .attr('stroke', '#266D98')
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+          return a !== b;
+        }))
+        .attr("class", "boundary")
+        .attr("d", path);
+
+      svg.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+          if (d.geometry && d.geometry.coordinates)
+            return projection(d.geometry.coordinates)[0];
+          else return 0;
+        })
+        .attr("cy", function(d) {
+          if (d.geometry && d.geometry.coordinates)
+            return projection(d.geometry.coordinates)[1];
+          else return 0;
+        })
+        .attr("r", function(d) {
+          if (d.properties && d.properties.mass && d.properties.mass > 0)
+            return (Math.sqrt(d.properties.mass) / 100)
+        })
+        .style("fill", function(d) {
+          return 'rgb(' + randomNo(256) + "," + randomNo(256) + "," + randomNo(256) + ")";
+        })
+        .attr("opacity", 0.65)
+        .on("mouseover", function(d) {
+          var rect = d3.select(this);
+          //  console.log(rect);
+          rect.attr("class", "mouseover");
+          tooltip.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          tooltip.html(htmlGen(d))
+            .style("left", (d3.event.pageX + 5) + "px")
+            .style("top", (d3.event.pageY - 50) + "px");
+        })
+        .on("mouseout", function() {
+          var rect = d3.select(this);
+          rect.attr("class", "mouseoff");
+          tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
+    }
+  </script>
+</body>

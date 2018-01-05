@@ -1,7 +1,7 @@
 axios.get('https://raw.githubusercontent.com/DealPete/forceDirected/master/countries.json')
 .then(function(response) {
   console.log(response.data);
-  //makeGraph(response.data);
+  makeGraph(response.data);
 }).catch(function(error) {
   console.log(error);
 });
